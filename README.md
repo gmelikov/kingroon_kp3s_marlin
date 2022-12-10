@@ -1,4 +1,4 @@
-# Marlin 2.* from Kingroon KP3S Titan no-bltouch
+# Marlin 2.* for Kingroon KP3S Titan no-bltouch
 
 Target platform - stock KP3S with Titan head.
 
