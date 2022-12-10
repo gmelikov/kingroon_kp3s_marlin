@@ -1,0 +1,46 @@
+name: Build firmware
+
+on:
+  push:
+    paths-ignore:
+    - '**/*.md'
+  pull_request:
+    paths-ignore:
+    - '**/*.md'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out the PR
+      uses: actions/checkout@v3
+      with:
+        submodules: 'true'
+
+    - name: Select Python 3.7
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.7'
+
+    - name: Install PlatformIO
+      run: |
+        pip install -U platformio
+        pio upgrade --dev
+        pio pkg update --global
+
+    - name: Build firmware
+      run: |
+        cd Marlin
+        cp ../configs/*.h Marlin/
+        pio run -e mks_robin_nano_v1v2
+
+    - name: Prepare artifacts
+      run: |
+        ls Marlin/.pio/build/mks_robin_nano_v1v2/
+        cp Marlin/.pio/build/mks_robin_nano_v1v2/*.bin ./Robin_nano.bin
+    - uses: actions/upload-artifact@v3
+      with:
+        name: firmware
+        path: |
+          ./Robin_nano.bin
