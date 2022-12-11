@@ -2086,8 +2086,11 @@
 #define Z_SAFE_HOMING
 
 #if ENABLED(Z_SAFE_HOMING)
-  #define Z_SAFE_HOMING_X_POINT ((X_BED_SIZE) / 2) // X point for Z homing
-  #define Z_SAFE_HOMING_Y_POINT ((Y_BED_SIZE) / 2) // Y point for Z homing
+  // NOTE(g.melikov): bed position is irrelevant for MESH_BED_LEVELING,
+  //  and may cause irrelevant plastic extrusion on homing just in center of
+  //  future print place.
+  #define Z_SAFE_HOMING_X_POINT 0 // X point for Z homing
+  #define Z_SAFE_HOMING_Y_POINT 0 // Y point for Z homing
 #endif
 
 // Homing speeds (linear=mm/min, rotational=°/min)
